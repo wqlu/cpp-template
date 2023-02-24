@@ -26,3 +26,13 @@ endif()
 add_clang_format_target()
 
 verbose_message("test")
+
+#
+# Unit testing Setup
+#
+if(${PROJECT_NAME}_ENABLE_UNIT_TESTING)
+  enable_testing()
+  message(STATUS "Build unit tests for the project. Tests should always be found in the test
+  folder\n")
+  add_subdirectory(test)
+endif()
