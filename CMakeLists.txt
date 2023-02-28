@@ -144,7 +144,38 @@ endif()
 
 message(STATUS "Finished setting up include directories.\n")
 
+#
+# Provide alias to library for
+#
+if(${PROJECT_NAME}_BUILD_EXECUTABLE)
+  add_executable(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+else()
+  add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+endif()
+
+verbose_message("Project is now aliased as ${PROJECT_NAME}::${PROJECT_NAME}.\n")
+
+#
+# Format the project using the `clang-format` target (i.e: cmake --build build --target clang-format)
+#
 add_clang_format_target()
+
+install(
+  TARGETS
+  ${PROJECT_NAME}
+  EXPORT
+  ${PROJECT_NAME}Targets
+  LIBRARY DESTINATION
+  ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION
+  ${CMAKE_INSTALL_BINDIR}
+  ARCHIVE DESTINATION
+  ${CMAKE_INSTALL_LIBDIR}
+  INCLUDES DESTINATION
+  include
+  PUBLIC_HEADER DESTINATION
+  include
+)
 
 #
 # Unit testing Setup
